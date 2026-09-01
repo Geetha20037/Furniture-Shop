@@ -1,0 +1,13 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
+import { useStore } from "../context/StoreContext";
+
+export default function Login() {
+  const [email,setEmail]=useState(""); const [password,setPassword]=useState(""); const [show,setShow]=useState(false); const [errors,setErrors]=useState({});
+  const {notify}=useStore(); const navigate=useNavigate();
+  const submit=e=>{e.preventDefault(); const er={}; if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) er.email="Enter a valid email"; if(password.length<8) er.password="Password must be at least 8 characters"; setErrors(er); if(!Object.keys(er).length){notify("Login successful"); navigate("/")}};
+  return <AuthShell title="Welcome back" subtitle="Sign in to continue to WOODORA"><form onSubmit={submit} className="space-y-5"><Field label="Email" type="email" value={email} onChange={setEmail} error={errors.email} placeholder="you@example.com"/><div><label className="text-sm font-semibold">Password</label><div className="relative mt-2"><input type={show?"text":"password"} value={password} onChange={e=>setPassword(e.target.value)} className="w-full rounded-xl border border-[#d9d1c5] bg-transparent px-4 py-3 pr-11 outline-none focus:border-[#8b6f47]" placeholder="Minimum 8 characters"/><button type="button" onClick={()=>setShow(!show)} className="absolute right-3 top-3.5 text-gray-500">{show?<EyeOff size={18}/>:<Eye size={18}/>}</button></div>{errors.password&&<p className="mt-1 text-xs text-red-500">{errors.password}</p>}</div><button className="w-full rounded-xl bg-[#29251f] py-3.5 font-bold text-white">Sign in</button></form><p className="mt-6 text-center text-sm text-gray-500">New here? <Link to="/signup" className="font-bold text-[#8b6f47]">Create an account</Link></p></AuthShell>;
+}
+function Field({label,type,value,onChange,error,placeholder}){return <div><label className="text-sm font-semibold">{label}</label><input type={type} value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} className="mt-2 w-full rounded-xl border border-[#d9d1c5] bg-transparent px-4 py-3 outline-none focus:border-[#8b6f47]"/>{error&&<p className="mt-1 text-xs text-red-500">{error}</p>}</div>}
+function AuthShell({title,subtitle,children}){return <div className="container-fluid grid min-h-[70vh] place-items-center py-14"><div className="w-full max-w-md rounded-3xl border border-[#e7e1d7] bg-white p-7 dark:bg-[#211f1b] sm:p-9"><div className="mb-8 text-center"><Link to="/" className="text-xl font-black tracking-[.2em]">WOODORA</Link><h1 className="mt-7 text-3xl font-black">{title}</h1><p className="mt-2 text-sm text-gray-500">{subtitle}</p></div>{children}</div></div>}

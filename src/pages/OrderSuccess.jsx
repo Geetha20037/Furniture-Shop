@@ -1,0 +1,3 @@
+import { CheckCircle2 } from "lucide-react";
+import { Link } from "react-router-dom";
+export default function OrderSuccess(){return <div className="container-fluid grid min-h-[70vh] place-items-center py-20 text-center"><div><CheckCircle2 size={70} className="mx-auto text-[#8b6f47]"/><h1 className="mt-6 text-4xl font-black">Order placed!</h1><p className="mx-auto mt-3 max-w-lg text-gray-500">Thank you for shopping with WOODORA. Your order has been received successfully.</p><Link to="/products" className="mt-8 inline-block rounded-full bg-[#29251f] px-7 py-3.5 font-bold text-white">Continue shopping</Link></div></div>}
